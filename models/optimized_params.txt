@@ -1,0 +1,7 @@
+{
+    "kernel_size": 25,
+    "sigma": 11,
+    "theta": 5,
+    "min_word_area": 100,
+    "resize_height": 1000
+}
