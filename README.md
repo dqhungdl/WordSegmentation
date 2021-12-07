@@ -26,7 +26,8 @@ List of arguments:
 
 Example usage:
 ```angular2html
-python main.py --data ./data/page --resize_height 1000 --theta 5
+python main.py --data ./data/page --resize_height 1000
+python main.py --data ./data/line --resize_height 50  --theta 7
 ```
 
 ### Use with the dataset
