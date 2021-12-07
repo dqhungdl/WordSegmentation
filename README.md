@@ -1,6 +1,9 @@
 # Scale space technique for Word Segmentation
 This implementation is based on the research named [**Scale Space Technique for Word Segmentation in Handwritten Documents**](http://ciir.cs.umass.edu/pubfiles/mm-27.pdf).
 The target is to segment words in an image.
+Here is an example.
+
+![Example of image word segmentation](./visualizations/example_predict.png)
 
 ## Installation
 
