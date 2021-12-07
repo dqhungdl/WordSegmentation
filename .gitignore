@@ -4,3 +4,5 @@ __pycache__
 data/forms
 data/preprocessed-forms
 data/words.txt
+
+.ipynb_checkpoints/

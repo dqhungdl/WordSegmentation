@@ -4,7 +4,6 @@ from typing import List, Dict, Tuple
 
 import cv2
 import numpy as np
-from path import Path
 from sklearn.cluster import DBSCAN
 
 from entities import Word, BoundingBox
@@ -34,6 +33,10 @@ class WordSegmentation:
         self.resize_height = resize_height
 
     def load_params(self, file_name):
+        """
+        Load params from file
+        :param file_name: File name
+        """
         with open(f'./models/{file_name}.txt', 'r') as f:
             data = json.load(f)
         self.kernel_size = data['kernel_size']
@@ -41,6 +44,18 @@ class WordSegmentation:
         self.theta = data['theta']
         self.min_word_area = data['min_word_area']
         self.resize_height = data['resize_height']
+
+    def get_params(self):
+        """
+        :return: Dictionary of params
+        """
+        return {
+            'kernel_size': self.kernel_size,
+            'sigma': self.sigma,
+            'theta': self.theta,
+            'min_word_area': self.min_word_area,
+            'resize_height': self.resize_height
+        }
 
     def preprocessing(self,
                       img: np.ndarray,
@@ -177,7 +192,7 @@ class WordSegmentation:
         return words
 
     def predict(self,
-                data: Path,
+                data: str,
                 is_visualized=False) -> Tuple[Dict[str, List[List[Word]]], Dict[str, float]]:
         """
         Full pipeline of word segmentation algorithm, used for both pages and lines images

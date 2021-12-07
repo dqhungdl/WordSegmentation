@@ -1,28 +1,34 @@
+import os
 import cv2
 import matplotlib.pyplot as plt
 
 from typing import List
 
 import numpy as np
-from path import Path
 
 from constants import Crop
 from entities import Word
 
 
-def get_image_files(data: Path) -> List[Path]:
+def get_image_files(data: str) -> List[str]:
     """
     Return all images in a folder
     :param data: Folder's path
     :return: List of images' path
     """
     paths = []
-    for ext in ['*.png', '*.jpg', '*.bmp']:
-        paths += Path(data).files(ext)
+    extensions = ['.png', '.jpg', '.bmp']
+    for path in os.listdir(data):
+        full_path = os.path.join(data, path)
+        if os.path.isfile(full_path):
+            for ext in extensions:
+                if ext in full_path:
+                    paths.append(full_path)
+                    break
     return paths
 
 
-def get_image_name(data: Path, is_remove_ext: bool = False) -> str:
+def get_image_name(data: str, is_remove_ext: bool = False) -> str:
     """
     Get image name from path
     :param data: Image path
@@ -42,6 +48,7 @@ def visualize_result(img: np.ndarray,
     :param img: Preprocessed image
     :param lines: List of lines, each line contains list of words
     """
+    plt.figure(figsize=(8, 8))
     plt.imshow(img, cmap='gray')
     num_colors = 7
     colors = plt.cm.get_cmap('rainbow', num_colors)
@@ -54,12 +61,12 @@ def visualize_result(img: np.ndarray,
     plt.show()
 
 
-def preprocess_dataset(data: Path = Path('./data/forms'), output: Path = Path('./data/preprocessed-forms')):
+def preprocess_dataset(data: str = './data/forms', output: str = './data/preprocessed-forms'):
     """
     Crop IAM dataset header and footer
     :param data: Path to folder contains IAM dataset
     """
-    images = Path(data).files()
+    images = get_image_files(data)
     cnt_img = 0
     for img_name in images:
         cnt_img += 1

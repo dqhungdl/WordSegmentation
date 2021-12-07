@@ -1,12 +1,11 @@
 import argparse
 
-from path import Path
 from word_segmentation import WordSegmentation
 
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--data', type=Path, default=Path('./data/page'))
+    parser.add_argument('--data', type=str, default='./data/page')
     parser.add_argument('--kernel_size', type=int, default=25)
     parser.add_argument('--sigma', type=float, default=11)
     parser.add_argument('--theta', type=float, default=5)

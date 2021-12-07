@@ -1,7 +1,5 @@
 import json
 
-from path import Path
-
 from constants import Crop
 from entities import BoundingBox
 from word_segmentation import WordSegmentation
@@ -41,7 +39,7 @@ class Evaluator:
                                              theta=theta,
                                              min_word_area=min_word_area,
                                              resize_height=resize_height)
-        self.predict, self.rescale_factors = word_segmentation.predict(Path(data))
+        self.predict, self.rescale_factors = word_segmentation.predict(data)
 
     @staticmethod
     def calculate_iou(box1: BoundingBox,
@@ -79,7 +77,18 @@ class Evaluator:
                  sigma: float = 11,
                  theta: float = 5,
                  min_word_area: int = 100,
-                 resize_height: int = 1000):
+                 resize_height: int = 1000) -> float:
+        """
+        Evaluation predict results by using Intersection Over Union (IOU) evaluation metrics
+        :param input_data: Input path
+        :param predict_data: Predict path
+        :param kernel_size: Kernel size
+        :param sigma: Sigma
+        :param theta: Theta
+        :param min_word_area: Min word area
+        :param resize_height: Resize height
+        :return: IOU score
+        """
         self.load_answer(predict_data)
         self.load_predict(input_data,
                           kernel_size=kernel_size,
@@ -115,6 +124,7 @@ class Evaluator:
             ious.append(sum_iou / cnt_word)
             print(f'IOU on image {img_id}: {sum_iou / cnt_word}')
         print(f'Mean of IOU: {sum(ious) / len(ious)}')
+        return sum(ious) / len(ious)
 
     def export_params(self, file_name: str = 'optimized_params'):
         """
